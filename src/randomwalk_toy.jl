@@ -1,8 +1,8 @@
-module RandomWork
+# module RandomWalk_toy
 
 # ランダムウォークのシミュレーションを行う関数
 # directionで進む方向x,y,zをランダムに選び，進む量もランダムで選ぶ
-function randomwalk()
+function randomwalk_toy()
     x, y, z = 0, 0, 0
     steps = 10
     for i in 1:steps
@@ -11,7 +11,7 @@ function randomwalk()
             x += rand([-1, 1])
         elseif direction == "y_direction"
             y += rand([-1, 1])
-        else # direction == "z_direction"
+        elseif direction == "z_direction"
             z += rand([-1, 1])
         end
         println("Step $i: ($x, $y, $z)")
@@ -20,6 +20,6 @@ function randomwalk()
 end
 
 # 関数の呼び出し
-randomwalk()
+randomwalk_toy()
 
-end
+# end
