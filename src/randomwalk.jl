@@ -6,7 +6,7 @@ module RandomWalk
 
 # ランダムウォークのシミュレーションを行う関数
 # ランダムにx, y, zのいずれかの方向を選び、-1または1の値を加算する
-# step回までに原点に戻った場合はcounterを1増やし、breakでループを抜ける
+# step回までに原点に戻った場合はcounterを1増やし、breakでループを抜ける(軽量化のために工夫)
 # step回までに原点に戻った場合はcounter=1としてreturnして渡す
 function randomwalk()
     step = 10000
