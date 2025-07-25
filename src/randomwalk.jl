@@ -46,7 +46,7 @@ end
 # 複数回ランダムウォークを実行する関数
 # randomwalk()から受け取ったcounterの平均を計算することで原点に戻る確率を計算する
 function cycler()
-    cycle = 10000
+    cycle = 100000
     # cycle = 10 # デバッグ用
     total_counter = 0
 
