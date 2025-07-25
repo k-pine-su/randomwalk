@@ -16,8 +16,10 @@ set view 64, 60
 splot "trace.dat" using 2:3:4:1 with lines palette notitle
 
 
-set terminal pdf size 7.5, 7.5
-set output 'trace.pdf'
+set terminal png size 800, 800
+set output 'trace.png'
+# set terminal pdf size 7.5, 7.5
+# set output 'trace.pdf'
 # set terminal postscript eps enhanced color
 # set output 'trace.eps'
 replot
