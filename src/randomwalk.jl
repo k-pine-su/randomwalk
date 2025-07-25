@@ -6,7 +6,7 @@ using Base.Threads
 # step回までに原点に戻った場合はcounterを1増やし、breakでループを抜ける(軽量化のために工夫)
 # step回までに原点に戻った場合はcounter=1としてreturnして渡す
 function randomwalk()
-    step = 10_000
+    step = 100_000
     # step = 10 # デバッグ用
     # stepcounter = 0 # デバッグ用
     counter = 0

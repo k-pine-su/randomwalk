@@ -6,7 +6,7 @@ function trace()
     # step = 10 # デバッグ用
     x, y, z = 0, 0, 0
 
-    open("../plot/trace.dat", "w") do io
+    open("trace.dat", "w") do io
         for i in 1:step
             direction = rand(["x_direction", "y_direction", "z_direction"])
 

@@ -1,6 +1,6 @@
 # ランダムウォークのシミュレーションを行う関数
 # directionで進む方向x,y,zをランダムに選び，進む量もランダムで選ぶ
-function randomwalk_toy()
+function toy()
     x, y, z = 0, 0, 0
     steps = 10
     for i in 1:steps
