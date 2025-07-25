@@ -114,6 +114,7 @@ end
 - total_counterを$`N_\mathrm{cycle}`$で割ることにより$`p(3) \simeq \text{probability} = \text{total\_counter} / N_\mathrm{cycle}`$を得る。
 
 
+
 ## 結果
 シミュレーションの実行結果は以下のようになった。
 ``` julia
@@ -124,6 +125,7 @@ julia> using RandomWalk
 julia> RandomWalk.cycler()
 probability = 0.34189
 ```
+
 
 ## 考察
 [協力者の得た値](https://github.com/m-kurihara-894/random_walk?tab=readme-ov-file#p-3-%E3%81%AE%E6%95%B0%E5%80%A4%E8%A7%A3)$`p(3)_{\mathrm{SP}}`$，[資料2の値](https://mathworld.wolfram.com/PolyasRandomWalkConstants.html)$`p(3)_{\mathrm{WM}}`$，今回の値$`p(3)_{\mathrm{ME}}`$の3つを比較する:
@@ -138,11 +140,18 @@ probability = 0.34189
 
 精度が低い原因だが，これは本来無限大である$`N_\mathrm{step}, \, N_\mathrm{cycle}`$を有限の値で打ち切ってしまっているからだと考えられる。
 
-これを改善するには単に$`N_\mathrm{step}, \, N_\mathrm{cycle}`$の値をもっと大きくとればよい。しかし，この方法だけでは私のコンピュータでは計算が終了するまでに時間がかかりすぎるため困難である。従ってコードの最適化も施す必要があると考えられる。具体的に最適化ができそうな箇所は，進む方向をランダムに選ぶ箇所である。ここではrand()を2回用いているので，1回で済むように変更したり，毎回乱数を生成するのではなく事前に用意するなど考えられる。また，randomwalk()のfor文に対しても並列処理を適用させることも考えられる。こちらは独立な処理ではないためcycler()のように簡単にはできないだろうが，もしこちらも並列処理が可能であればかなりの高速化が見込めるだろう。
+これを改善するには，単に$`N_\mathrm{step}`$や$`N_\mathrm{cycle}`$の値を更に大きくすればよいが，この方法だけでは計算時間が非常に長くなり現実的ではない。そのためコードの最適化も必要である。特に，進む方向をランダムに選ぶ部分では，rand()を2回使用しているが1回で済むように工夫したり，乱数を毎回生成するのではなく事前にまとめて用意する方法が考えられる。また，randomwalk()内のfor文にも並列処理を適用できれば，更なる高速化が期待できる。ただし，こちらは処理が独立していないため，cycler()のように簡単にはいかない可能性があるが，もし並列化が可能であれば大幅な計算時間の短縮が可能であると考えられる。
+
 
 
 ## まとめ
 - 3次元単純ランダムウォークの再帰確率をシミュレーションにより求めた。
 - このシミュレーションを実行する方法には並列処理を用いることで高速化した。
 - 得られた$`p(3)`$の値は，[協力者の得た値](https://github.com/m-kurihara-894/random_walk?tab=readme-ov-file#p-3-%E3%81%AE%E6%95%B0%E5%80%A4%E8%A7%A3)，[資料2の値](https://mathworld.wolfram.com/PolyasRandomWalkConstants.html)と小数第2位までは一致した。
-- もっと制度の良い結果を得るにはコードの最適化が重要である。
+- もっと精度の良い結果を得るにはコードの最適化が重要である。
+
+
+
+## Appendix
+plot下にあるTrace.jlを実行すると$`10^6`$歩のランダムウォークの軌跡をtrace.datに出力する。このdatファイルをgnuplotのpltファイルであるtrace.pltで描画すると次のようになる。
+![plot/trace.pdf](https://github.com/k-pine-su/randomwalk/blob/main/plot/trace.pdf)
