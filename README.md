@@ -26,17 +26,17 @@ $`n=1,\,2`$の単純ランダムウォークで$`p(n)=1`$である，つまり�
 
 ## 数値的な$`p(3)`$の評価
 詳細な議論は[協力者のREADME](https://github.com/k-pine-su/randomwalk)及び[資料1](https://www2.math.kyushu-u.ac.jp/~hara/lectures/02/pr-grad-all.pdf)を参照してほしいが，Fourier変換を用いることにより$`p(3)`$は
-$$
+``` math
     p(3)
     =
     1 - \frac{1}{u(3)}
-$$
+```
 と書き換えることができる。ここで$`u(3)`$は次で定義される定積分である:
-$$
+``` math
     u(3) 
     :=
     \int_{-\pi}^{\pi} \int_{-\pi}^{\pi} \int_{-\pi}^{\pi} \frac{\mathrm{d}^3k}{(2\pi)^3} \frac{3}{3 - \cos{k_1} - \cos{k_2} - \cos{k_3}}.
-$$
+```
 この積分は解析的に実行することができないので，数値積分によって評価する必要がある。
 
 
@@ -47,11 +47,11 @@ $$
 1. $N_\mathrm{step}$歩のランダムウォークを実行する。この際，原点に戻ったかどうか記録する。
 1. $N_\mathrm{cycle}$回1.を実行する。
 1. 1.及び2.により
-    $$
+    ``` math
         p(3) \simeq (N_\mathrm{step} \text{歩のランダムウォークで原点に戻る確率})
-    $$
+    ```
     を求める。
     
-但しここで$N_\mathrm{step}, \, N_\mathrm{cycle}$は十分大きい値を取るとする。
+但しここで$`N_\mathrm{step}, \, N_\mathrm{cycle}`$は十分大きい値を取るとする。
 
 ### コード
