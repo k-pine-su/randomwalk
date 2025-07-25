@@ -154,4 +154,7 @@ probability = 0.34189
 
 ## Appendix
 plot下にあるTrace.jlを実行すると$`10^6`$歩のランダムウォークの軌跡をtrace.datに出力する。このdatファイルをgnuplotのpltファイルであるtrace.pltで描画すると次のようになる。
+
 ![plot/trace.pdf](https://github.com/k-pine-su/randomwalk/blob/main/plot/trace.pdf)
+
+![plot/trace.eps](https://github.com/k-pine-su/randomwalk/blob/main/plot/trace.eps)
