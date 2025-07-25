@@ -84,7 +84,7 @@ function randomwalk()
     return counter
 end
 ```
-- stepで$`N_\mathrm{step}`$を指定する。今回は$`N_\mathrm{step} = 100000`$とした。
+- stepで$`N_\mathrm{step}`$を指定する。今回は$`N_\mathrm{step} = 10^5`$とした。
 - for文により$`1`$歩進むことを$`N_\mathrm{step}`$回繰り返す。
 - $`x, \, y, \, z`$方向をランダムに選んだ後に，進むか戻るかをランダムに選ぶ。
 - 粒子が原点に戻った場合，counterを1増加してfor文を終了する。
@@ -107,11 +107,11 @@ function cycler()
 end
 ```
 - juliaの標準ライブラリであるBase.Threadsを用いる。
-- cycleで$`N_\mathrm{cycle}`$を指定する。今回は$`N_\mathrm{cycle} = 100000`$とした。
+- cycleで$`N_\mathrm{cycle}`$を指定する。今回は$`N_\mathrm{cycle} = 10^5`$とした。
 - for文により並列処理で$`N_\mathrm{cycle}`$回ランダムウォークを実行する。
 - atomicとは複数のスレッドが同時に同じ変数にアクセスしても，値の読み書きが安全に行われる操作である。
 - total_counterは複数回randomwalk()を実行して得られるcounterの和である。
-- total_counterを$`N_\mathrm{cycle}`$で割ることにより$`p(3)`$を得る。
+- total_counterを$`N_\mathrm{cycle}`$で割ることにより$`p(3) \simeq \text{probability} = \text{total\_counter} / N_\mathrm{cycle}`$を得る。
 
 
 ## 結果
@@ -124,3 +124,25 @@ julia> using RandomWalk
 julia> RandomWalk.cycler()
 probability = 0.34189
 ```
+
+## 考察
+[協力者の得た値](https://github.com/m-kurihara-894/random_walk?tab=readme-ov-file#p-3-%E3%81%AE%E6%95%B0%E5%80%A4%E8%A7%A3)$`p(3)_{\mathrm{SP}}`$，[資料2の値](https://mathworld.wolfram.com/PolyasRandomWalkConstants.html)$`p(3)_{\mathrm{WM}}`$，今回の値$`p(3)_{\mathrm{ME}}`$の3つを比較する:
+``` math
+\begin{align*}
+    p(3)_{\mathrm{SP}} &= 0.3405364651916645, \\
+    p(3)_{\mathrm{WM}} &= 0.3405373296, \\
+    p(3)_{\mathrm{ME}} &= 0.34189. \\
+\end{align*}
+```
+これらを比較すると，$`p(3)_{\mathrm{SP}}`$と$`p(3)_{\mathrm{WM}}`$は小数第5位まで一致しているが，$`p(3)_{\mathrm{ME}}`$は小数第3位から異なっている。
+
+精度が低い原因だが，これは本来無限大である$`N_\mathrm{step}, \, N_\mathrm{cycle}`$を有限の値で打ち切ってしまっているからだと考えられる。
+
+これを改善するには単に$`N_\mathrm{step}, \, N_\mathrm{cycle}`$の値をもっと大きくとればよい。しかし，この方法だけでは私のコンピュータでは計算が終了するまでに時間がかかりすぎるため困難である。従ってコードの最適化も施す必要があると考えられる。具体的に最適化ができそうな箇所は，進む方向をランダムに選ぶ箇所である。ここではrand()を2回用いているので，1回で済むように変更したり，毎回乱数を生成するのではなく事前に用意するなど考えられる。また，randomwalk()のfor文に対しても並列処理を適用させることも考えられる。こちらは独立な処理ではないためcycler()のように簡単にはできないだろうが，もしこちらも並列処理が可能であればかなりの高速化が見込めるだろう。
+
+
+## まとめ
+- 3次元単純ランダムウォークの再帰確率をシミュレーションにより求めた。
+- このシミュレーションを実行する方法には並列処理を用いることで高速化した。
+- 得られた$`p(3)`$の値は，[協力者の得た値](https://github.com/m-kurihara-894/random_walk?tab=readme-ov-file#p-3-%E3%81%AE%E6%95%B0%E5%80%A4%E8%A7%A3)，[資料2の値](https://mathworld.wolfram.com/PolyasRandomWalkConstants.html)と小数第2位までは一致した。
+- もっと制度の良い結果を得るにはコードの最適化が重要である。
