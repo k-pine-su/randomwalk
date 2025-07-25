@@ -1,15 +1,12 @@
 module RandomWalk
-
-
-# 高速化のために並列処理で実行してみたいなあ
-
+using Base.Threads
 
 # ランダムウォークのシミュレーションを行う関数
 # ランダムにx, y, zのいずれかの方向を選び、-1または1の値を加算する
 # step回までに原点に戻った場合はcounterを1増やし、breakでループを抜ける(軽量化のために工夫)
 # step回までに原点に戻った場合はcounter=1としてreturnして渡す
 function randomwalk()
-    step = 10000
+    step = 10_000
     # step = 10 # デバッグ用
     # stepcounter = 0 # デバッグ用
     counter = 0
@@ -44,23 +41,22 @@ end
 
 
 # 複数回ランダムウォークを実行する関数
+# 並列処理を使用
 # randomwalk()から受け取ったcounterの平均を計算することで原点に戻る確率を計算する
 function cycler()
-    cycle = 100000
-    # cycle = 10 # デバッグ用
-    total_counter = 0
+    cycle = 100_000
+    total_counter = Threads.Atomic{Int}(0)
 
-    for i in 1:cycle
-        total_counter += randomwalk()
-        # randomwalk() # デバッグ用
+    @threads for i in 1:cycle
+        Threads.atomic_add!(total_counter, randomwalk())
     end
 
-    println("probability = $(total_counter / cycle)")
+    println("probability = $(total_counter[] / cycle)")
 end
 
 
 # 関数の呼び出し
-cycler()
+# cycler()
 # randomwalk() # デバッグ用
 
 end

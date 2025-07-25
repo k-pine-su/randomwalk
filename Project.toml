@@ -1,0 +1,4 @@
+name = "RandomWalk"
+uuid = "c917452e-536c-4f3f-a3b9-ad1467afddb2"
+authors = ["Kaker <matsushita.k.295@ms.saitama-u.ac.jp>"]
+version = "0.1.0"
